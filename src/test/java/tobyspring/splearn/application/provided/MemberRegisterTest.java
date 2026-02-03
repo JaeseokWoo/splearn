@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Transactional
 @Import(SplearnTestConfiguration.class)
 record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
+// record는 기본적으로 final class라서 상속할 수 없다. @Transactional을 담고 있으면 subclass를 만들어야 하는데(Transactional AOP 적용), final이라서 만들 수 없다는 빨간줄 발생
+// 하지만 위에 있는 @Transactional은 AOP로 트랜잭션을 적용해주기 위한 게 아니라, 테스팅 프레임 워크와 결합해서 테스트 메소드가 실행되기 전에 트랜잭션을 시작하고 별다른 설정이 없으면 메소드가 끝나고 롤백해주기 위함
 
     @Test
     void register() {
