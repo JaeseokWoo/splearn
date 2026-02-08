@@ -1,16 +1,17 @@
-package tobyspring.splearn.application.required;
+package tobyspring.splearn.application.member.required;
 
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import tobyspring.splearn.domain.Member;
+import tobyspring.splearn.domain.member.Member;
+import tobyspring.splearn.domain.member.MemberStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static tobyspring.splearn.domain.MemberFixture.createMemberRegisterRequest;
-import static tobyspring.splearn.domain.MemberFixture.createPasswordEncoder;
+import static tobyspring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
+import static tobyspring.splearn.domain.member.MemberFixture.createPasswordEncoder;
 
 @DataJpaTest
 class MemberRepositoryTest {
@@ -26,11 +27,16 @@ class MemberRepositoryTest {
 
         assertThat(member.getId()).isNull();
 
-        memberRepository.save(member);
+        memberRepository.save(member); // 영속화
 
         assertThat(member.getId()).isNotNull();
 
         entityManager.flush();
+        entityManager.clear(); // 메모리에 로딩되어 있는 entity 날림, JPA 캐시에 영속화한 member는 영속 상태의 오브젝트가 아니다
+
+        var found = memberRepository.findById(member.getId()).orElseThrow();
+        assertThat(found.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(found.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Test
