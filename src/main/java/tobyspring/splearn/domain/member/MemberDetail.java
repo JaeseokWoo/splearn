@@ -1,5 +1,6 @@
 package tobyspring.splearn.domain.member;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -20,7 +21,6 @@ import static org.springframework.util.Assert.state;
 @ToString(callSuper = true) // super의 있는 값도 출력하기 위해 추가
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDetail extends AbstractEntity {
-    @Embedded
     private Profile profile;
 
     private String introduction;

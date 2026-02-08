@@ -4,3 +4,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+  docker:
+    compose:
+      lifecycle-management: start_only # 종료했다고 같이 종료하지 않는 옵션
