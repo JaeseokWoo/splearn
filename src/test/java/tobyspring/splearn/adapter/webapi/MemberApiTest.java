@@ -29,7 +29,7 @@ import static tobyspring.splearn.AssertThatUtils.notNull;
 @AutoConfigureMockMvc
 @Transactional // 트랜잭션 전파(Propagation) REQUIRES_NEW, NESTED 사용할 때는 테스트가 끝나고 rollback이 안 됨, 동시성을 직접 다루고 내부에서 트랜잭션을 통해 데이터를 수정한 것도 적용이 안된다.
 @RequiredArgsConstructor
-public class MemberApiTest {
+class MemberApiTest {
     final MockMvcTester mvcTester;
     final ObjectMapper objectMapper;
     final MemberRepository memberRepository;
